@@ -19,35 +19,25 @@
 
   <body>
     <div class="main" role="main">
-      <div class="title">
-        <h2>Connect Four</h2>
-      </div>
+      <div class="title"></div>
 
       <div class="status">
-        <div class="player-status player1">
-          <img class="avatar avatar1" src="public/img/nyan_cat.gif" align="middle"></img>
-          <span><i>Nyan Cat</i></span>
-        </div>
         <div class="versus"><span>V.S.</span></div>
-        <div class="player-status player2">
-          <span><i>Grumpy Cat</i></span>
-          <img class="avatar avatar2" src="public/img/grumpy_cat.jpg" align="middle"></img>
-        </div>
       </div>
 
-      <hr>
-
-      <div class="content"></div>
+      <div class="game"></div>
     </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="public/js/util.js"></script>
-    <script type="text/javascript" src="public/js/connectFourView.js"></script>
+    <script type="text/javascript" src="public/js/player.js"></script>
     <script type="text/javascript" src="public/js/connectFour.js"></script>
+    <script type="text/javascript" src="public/js/connectFourView.js"></script>
     <script type="text/javascript">
       $(function() {
-        var connectFour = new ConnectFour({ width: 7, height: 6 });
-        var game = new ConnectFourView(connectFour, { targetElem: '.content' });
+        var connectFour = new ConnectFour({ row: 6, col: 7, title: 'Connect Four' });
+        var player1 = new Player({ name: 'Nyan Cat', imgUrl: 'public/img/nyan_cat.gif' });
+        var player2 = new Player({ name: 'Grumpy Cat', imgUrl: 'public/img/grumpy_cat.jpg' });
+        var game = new ConnectFourView(connectFour, player1, player2);
         game.init();
       });
     </script>

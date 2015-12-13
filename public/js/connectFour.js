@@ -1,5 +1,6 @@
 var ConnectFour = function(options) {
   options = options || {};
-  this.width = options.width || 7;
-  this.height = options.height || 6;
+  this.row = options.row || 6;
+  this.col = options.col || 7;
+  this.title = options.title || 'ConnectFour';
 };
