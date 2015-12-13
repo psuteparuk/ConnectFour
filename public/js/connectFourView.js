@@ -1,11 +1,8 @@
-var ConnectFourView = function(gameModel, player1, player2, options) {
+var ConnectFourView = function(model, options) {
   this.CELL_SIZE = 60;
 
   options = options || {};
-  this.game = gameModel;
-  this.player1 = player1;
-  this.player2 = player2;
-  this.currentPlayer = this.player1;
+  this.game = model;
   this.width = this.game.col * this.CELL_SIZE;
   this.height = this.game.row * this.CELL_SIZE;
   this.$gameElem = $(options.gameElem || '.game');
@@ -14,32 +11,12 @@ var ConnectFourView = function(gameModel, player1, player2, options) {
 
 ConnectFourView.prototype.init = function() {
   this.setTitle(this.game.title);
-  this.addPlayerStatus(this.player1);
-  this.addPlayerStatus(this.player2);
-  this.setCurrentPlayer(this.player1);
+  this.addPlayerStatus(this.game.player1);
+  this.addPlayerStatus(this.game.player2);
   this.addBoard();
+  this.boardHandler();
 
-  $('.board td').mouseenter(function(e) {
-    var targetCol = $(e.target).attr('class');
-    $('.' + targetCol.replace(' ', '.')).addClass('hover');
-  });
-  $('.board td').mouseleave(function(e) {
-    var targetCol = $(e.target).attr('class');
-    $('.' + targetCol.replace(' ', '.')).removeClass('hover');
-  });
-  $('.board td').click(function(e) {
-    if (!this.game.isActive) return;
-
-    var targetCol = $(e.target).attr('class');
-    var matchedClass = /col-(\d+)/g.exec(targetCol);
-    if (!matchedClass) return;
-
-    var colIndex = parseInt(matchedClass[1], 10);
-    if (!this.addToken(colIndex, this.currentPlayer)) return;
-
-    this.game.checkWinningState();
-    this.switchPlayer();
-  }.bind(this));
+  $(this.game).on('playerChanged', function(e, player) { this.setCurrentPlayer(player); }.bind(this));
 };
 
 ConnectFourView.prototype.addPlayerStatus = function(player) {
@@ -57,8 +34,6 @@ ConnectFourView.prototype.addPlayerStatus = function(player) {
     player.$playerStatusElem.append(tokenTemplate);
     $vsElem.after(player.$playerStatusElem);
   }
-
-  // if (player.id === this.currentPlayer.id) player.$playerStatusElem.children('span').addClass('current');
 };
 
 ConnectFourView.prototype.addBoard = function() {
@@ -77,24 +52,41 @@ ConnectFourView.prototype.addBoard = function() {
   }
 };
 
+ConnectFourView.prototype.boardHandler = function() {
+  // Turn-based interaction
+  $('.board td').click(function(e) {
+    if (!this.game.isActive) return;
+
+    var targetCol = $(e.target).attr('class');
+    var matchedClass = /col-(\d+)/g.exec(targetCol);
+    if (!matchedClass) return;
+
+    var colIndex = parseInt(matchedClass[1], 10);
+    if (!this.addToken(colIndex, this.game.currentPlayer)) return;
+
+    this.game.checkWinningState();
+    this.game.switchPlayer();
+  }.bind(this));
+
+  // Other interactions
+  $('.board td').mouseenter(function(e) {
+    var targetCol = $(e.target).attr('class');
+    $('.' + targetCol.replace(' ', '.')).addClass('hover');
+  });
+  $('.board td').mouseleave(function(e) {
+    var targetCol = $(e.target).attr('class');
+    $('.' + targetCol.replace(' ', '.')).removeClass('hover');
+  });
+};
+
 ConnectFourView.prototype.setTitle = function(title) {
   $('.title').html('<h2>' + title + '</h2>');
 };
 
 ConnectFourView.prototype.setCurrentPlayer = function(player) {
-  this.currentPlayer = player;
   this.setMessage(player.name + "'s turn");
   $('.player-status span').removeClass('current');
   player.$playerStatusElem.children('span').addClass('current');
-};
-
-ConnectFourView.prototype.switchPlayer = function() {
-  if (this.currentPlayer.id === 1) this.setCurrentPlayer(this.player2);
-  else this.setCurrentPlayer(this.player1);
-};
-
-ConnectFourView.prototype.getMessage = function() {
-  return this.$messageElem.html();
 };
 
 ConnectFourView.prototype.setMessage = function(message) {

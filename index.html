@@ -36,10 +36,10 @@
     <script type="text/javascript" src="public/js/connectFourView.js"></script>
     <script type="text/javascript">
       $(function() {
-        var connectFour = new ConnectFour({ row: 6, col: 7, title: 'Connect Four' });
         var player1 = new Player({ name: 'Nyan Cat', imgUrl: 'public/img/nyan_cat.gif' });
         var player2 = new Player({ name: 'Grumpy Cat', imgUrl: 'public/img/grumpy_cat.jpg' });
-        var game = new ConnectFourView(connectFour, player1, player2);
+        var connectFour = new ConnectFour(player1, player2, { row: 6, col: 7, title: 'Connect Four' });
+        var game = new ConnectFourView(connectFour);
         game.init();
       });
     </script>
