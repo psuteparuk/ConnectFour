@@ -1,0 +1,60 @@
+.main {
+  width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title h2 {
+  color: #FF9009;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  vertical-align: center;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+.status .player-status {
+  flex-grow: 1;
+}
+
+.status .versus {
+  flex-shrink: 1;
+}
+
+.status span {
+  margin: 0 1.5rem;
+  line-height: 2.2;
+}
+
+.status .player1 {
+  color: #00C96D;
+  text-align: right;
+}
+
+.status .player2 {
+  color: #DC1434;
+  text-align: left;
+}
+
+.avatar {
+  height: 30px;
+  border-radius: 30px;
+  padding: 0.5rem;
+}
+
+.avatar1 {
+  background-color: #00C96D;
+  width: 30px;
+}
+
+.avatar2 {
+  background-color: #DC1434;
+}
+
+.content {
+  margin: 0 auto;
+  background-color: black;
+}

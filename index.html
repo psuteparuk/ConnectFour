@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Connect Four</title>
+
+    <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, minimun-scale=1, maximum-scale=1'>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="public/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="public/css/connectFour.css" />
+  </head>
+
+  <body>
+    <div class="main" role="main">
+      <div class="title">
+        <h2>Connect Four</h2>
+      </div>
+
+      <div class="status">
+        <div class="player-status player1">
+          <img class="avatar avatar1" src="public/img/nyan_cat.gif" align="middle"></img>
+          <span><i>Nyan Cat</i></span>
+        </div>
+        <div class="versus"><span>V.S.</span></div>
+        <div class="player-status player2">
+          <span><i>Grumpy Cat</i></span>
+          <img class="avatar avatar2" src="public/img/grumpy_cat.jpg" align="middle"></img>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="content"></div>
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="public/js/util.js"></script>
+    <script type="text/javascript" src="public/js/connectFourView.js"></script>
+    <script type="text/javascript" src="public/js/connectFour.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var connectFour = new ConnectFour({ width: 7, height: 6 });
+        var game = new ConnectFourView(connectFour, { targetElem: '.content' });
+        game.init();
+      });
+    </script>
+  </body>
+</html>
