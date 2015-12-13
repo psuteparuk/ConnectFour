@@ -4,4 +4,5 @@ var Player = function(options) {
   this.id = ++Player.id;
   this.name = options.name || ('Player ' + this.id);
   this.imgUrl = options.imgUrl || '';
+  this.$playerStatusElem = null;
 };
