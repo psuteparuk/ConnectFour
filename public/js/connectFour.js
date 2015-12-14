@@ -52,6 +52,7 @@ ConnectFour.prototype.checkWinningState = function(colIndex) {
   rInd = rowIndex;
   while (--rInd >= 0 && count < this.TARGET_LENGTH) {
     if (this.currentState[colIndex][rInd] === playerID) count++;
+    else break;
   }
   if (count === this.TARGET_LENGTH) return true;
 
@@ -59,14 +60,16 @@ ConnectFour.prototype.checkWinningState = function(colIndex) {
   count = 1;
   cInd = colIndex;
   while (--cInd >= 0 && count < this.TARGET_LENGTH) {
-    if (this.currentState[cInd].length <= rowIndex) break;
-    if (this.currentState[cInd][rowIndex] === playerID) count++;
+    if (this.currentState[cInd].length <= rowIndex) break; // no token
+    if (this.currentState[cInd][rowIndex] !== playerID) break; // wrong token
+    count++;
   }
   if (count === this.TARGET_LENGTH) return true;
   cInd = colIndex;
   while (++cInd < this.col && count < this.TARGET_LENGTH) {
-    if (this.currentState[cInd].length <= rowIndex) break;
-    if (this.currentState[cInd][rowIndex] === playerID) count++;
+    if (this.currentState[cInd].length <= rowIndex) break; // no token
+    if (this.currentState[cInd][rowIndex] !== playerID) break; // wrong token
+    count++;
   }
   if (count === this.TARGET_LENGTH) return true;
 
@@ -75,15 +78,17 @@ ConnectFour.prototype.checkWinningState = function(colIndex) {
   rInd = rowIndex;
   cInd = colIndex;
   while (--rInd >= 0 && --cInd >= 0 && count < this.TARGET_LENGTH) {
-    if (this.currentState[cInd].length <= rInd) break;
-    if (this.currentState[cInd][rInd] === playerID) count++;
+    if (this.currentState[cInd].length <= rInd) break; // no token
+    if (this.currentState[cInd][rInd] !== playerID) break; // wrong token
+    count++;
   }
   if (count === this.TARGET_LENGTH) return true;
   rInd = rowIndex;
   cInd = colIndex;
   while (++rInd < this.row && ++cInd < this.col && count < this.TARGET_LENGTH) {
-    if (this.currentState[cInd].length <= rInd) break;
-    if (this.currentState[cInd][rInd] === playerID) count++;
+    if (this.currentState[cInd].length <= rInd) break; // no token
+    if (this.currentState[cInd][rInd] !== playerID) break; // wrong token
+    count++;
   }
   if (count === this.TARGET_LENGTH) return true;
 
@@ -92,15 +97,17 @@ ConnectFour.prototype.checkWinningState = function(colIndex) {
   rInd = rowIndex;
   cInd = colIndex;
   while (--rInd >= 0 && ++cInd < this.col && count < this.TARGET_LENGTH) {
-    if (this.currentState[cInd].length <= rInd) break;
-    if (this.currentState[cInd][rInd] === playerID) count++;
+    if (this.currentState[cInd].length <= rInd) break; // no token
+    if (this.currentState[cInd][rInd] !== playerID) break; // wrong token
+    count++;
   }
   if (count === this.TARGET_LENGTH) return true;
   rInd = rowIndex;
   cInd = colIndex;
   while (++rInd < this.row && --cInd >= 0 && count < this.TARGET_LENGTH) {
-    if (this.currentState[cInd].length <= rInd) break;
-    if (this.currentState[cInd][rInd] === playerID) count++;
+    if (this.currentState[cInd].length <= rInd) break; // no token
+    if (this.currentState[cInd][rInd] !== playerID) break; // wrong token
+    count++;
   }
   if (count === this.TARGET_LENGTH) return true;
 

@@ -115,11 +115,24 @@ ConnectFourView.prototype.nameTemplate = function(player) {
 
 ConnectFourView.prototype.addToken = function(colIndex) {
   var response = this.game.addToken(colIndex);
+  var player = this.game.currentPlayer;
 
   if (response.success) {
-    var $row = this.$gameElem.find('tr:nth-child(' + (response.rowIndex+1) + ')');
-    var $cell = $row.children('td:nth-child(' + (colIndex+1) + ')');
-    $cell.html(this.tokenTemplate(this.game.currentPlayer));
+    // Add dummy token for animation purpose
+    var $token = $(this.tokenTemplate(player));
+    var offset = this.$gameElem.find('tr:first-child').children('td:nth-child(' + (colIndex+1) + ')').children('.token').offset();
+    var topOffset = 1.1 * this.CELL_SIZE;
+    $token.css({ position: 'absolute', top: offset.top - topOffset, left: offset.left });
+    $('.main').append($token);
+
+    $token.animate({
+      top: '+=' + (response.rowIndex*this.CELL_SIZE + topOffset) + 'px'
+    }, 1000*(response.rowIndex+1)/this.game.row, 'linear', function() {
+      $token.remove();
+      var $row = this.$gameElem.find('tr:nth-child(' + (response.rowIndex+1) + ')');
+      var $cell = $row.children('td:nth-child(' + (colIndex+1) + ')');
+      $cell.html(this.tokenTemplate(player));
+    }.bind(this));
   } else {
     this.setMessage(response.error + " Still " + this.game.currentPlayer.name + "'s turn");
   }
