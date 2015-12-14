@@ -27,7 +27,7 @@
 
    /* LINKS
    ---------------------------------------- */ 
-   a                      { color:#1B1B1B; text-decoration:none; outline:0; cursor:pointer; }
+   a                      { color:#1B1B1B; text-decoration:underline; outline:0; cursor:pointer; }
    a:hover, a:focus, a:active       { color:#00C96D; outline:0; }
    
    /* SELECTION

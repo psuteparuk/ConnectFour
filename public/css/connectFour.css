@@ -58,6 +58,12 @@
   background-color: #DC1434;
 }
 
+.token-default {
+  border: 1px solid #1B1B1B;
+  width: 30px;
+  margin: 0 auto;
+}
+
 .game {
   margin: 2rem auto;
 }

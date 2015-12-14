@@ -17,6 +17,9 @@ ConnectFourView.prototype.init = function() {
   this.boardHandler();
 
   $(this.game).on('playerChanged', function(e, player) { this.setCurrentPlayer(player); }.bind(this));
+  $('.replay').click(function(e) { this.reset(); }.bind(this));
+
+  this.reset();
 };
 
 ConnectFourView.prototype.addPlayerStatus = function(player) {
@@ -53,28 +56,37 @@ ConnectFourView.prototype.addBoard = function() {
 };
 
 ConnectFourView.prototype.boardHandler = function() {
+  var $cells = $('.board td, .board td *');
+
   // Turn-based interaction
-  $('.board td').click(function(e) {
+  $cells.click(function(e) {
     if (!this.game.isActive) return;
 
-    var targetCol = $(e.target).attr('class');
+    var $target = $(e.target).is('td') ? $(e.target) : $(e.target).parent();
+    var targetCol = $target.attr('class');
     var matchedClass = /col-(\d+)/g.exec(targetCol);
     if (!matchedClass) return;
 
     var colIndex = parseInt(matchedClass[1], 10);
     if (!this.addToken(colIndex, this.game.currentPlayer)) return;
 
-    this.game.checkWinningState();
+    if (this.game.checkWinningState(colIndex)) {
+      this.showWinningState();
+      return;
+    }
+
     this.game.switchPlayer();
   }.bind(this));
 
   // Other interactions
-  $('.board td').mouseenter(function(e) {
-    var targetCol = $(e.target).attr('class');
+  $cells.mouseenter(function(e) {
+    var $target = $(e.target).is('td') ? $(e.target) : $(e.target).parent();
+    var targetCol = $target.attr('class');
     $('.' + targetCol.replace(' ', '.')).addClass('hover');
   });
-  $('.board td').mouseleave(function(e) {
-    var targetCol = $(e.target).attr('class');
+  $cells.mouseleave(function(e) {
+    var $target = $(e.target).is('td') ? $(e.target) : $(e.target).parent();
+    var targetCol = $target.attr('class');
     $('.' + targetCol.replace(' ', '.')).removeClass('hover');
   });
 };
@@ -101,16 +113,28 @@ ConnectFourView.prototype.nameTemplate = function(player) {
   return '<span><i>' + player.name + '</i></span>';
 };
 
-ConnectFourView.prototype.addToken = function(colIndex, player) {
-  var response = this.game.addToken(colIndex, player.id);
+ConnectFourView.prototype.addToken = function(colIndex) {
+  var response = this.game.addToken(colIndex);
 
   if (response.success) {
     var $row = this.$gameElem.find('tr:nth-child(' + (response.rowIndex+1) + ')');
     var $cell = $row.children('td:nth-child(' + (colIndex+1) + ')');
-    $cell.html(this.tokenTemplate(player));
+    $cell.html(this.tokenTemplate(this.game.currentPlayer));
   } else {
-    this.setMessage(response.error + " Still " + player.name + "'s turn");
+    this.setMessage(response.error + " Still " + this.game.currentPlayer.name + "'s turn");
   }
 
   return response.success;
+};
+
+ConnectFourView.prototype.showWinningState = function() {
+  this.setMessage(this.game.currentPlayer.name + " WINS!");
+  this.game.isActive = false;
+  $('.replay').show();
+};
+
+ConnectFourView.prototype.reset = function() {
+  this.game.reset();
+  $('.replay').hide();
+  $('.board td').html('<div class="token token-default"></div>');
 };
