@@ -26,7 +26,7 @@ ConnectFour.prototype.setCurrentPlayer = function(player) {
 };
 
 ConnectFour.prototype.switchPlayer = function() {
-  if (this.currentPlayer.id === 1) this.setCurrentPlayer(this.player2);
+  if (this.currentPlayer.id === this.player1.id) this.setCurrentPlayer(this.player2);
   else this.setCurrentPlayer(this.player1);
 };
 
