@@ -16,14 +16,11 @@ QUnit.module('ConnectFour', function(hooks) {
     QUnit.test('Players', function(assert) {
       assert.deepEqual(this.model.player1, this.player1, 'Set correct player1');
       assert.deepEqual(this.model.player2, this.player2, 'Set correct player2');
+      assert.deepEqual(this.model.currentPlayer, this.player1, 'Default to player1');
     });
 
     QUnit.test('Active', function(assert) {
       assert.ok(this.model.isActive, 'Set game state to active');
-    });
-
-    QUnit.test('Current Player', function(assert) {
-      assert.deepEqual(this.model.currentPlayer, this.player1, 'Default to player1');
     });
   });
 
@@ -102,7 +99,7 @@ QUnit.module('ConnectFour', function(hooks) {
       });
 
       QUnit.test('Non winning state', function(assert) {
-        assert.ok(!this.model.checkWinningState(1));
+        assert.notOk(this.model.checkWinningState(1));
       });
     });
 
@@ -125,7 +122,7 @@ QUnit.module('ConnectFour', function(hooks) {
       });
 
       QUnit.test('Non winning state', function(assert) {
-        assert.ok(!this.model.checkWinningState(5));
+        assert.notOk(this.model.checkWinningState(5));
       });
     });
 
@@ -148,7 +145,7 @@ QUnit.module('ConnectFour', function(hooks) {
       });
 
       QUnit.test('Non winning state', function(assert) {
-        assert.ok(!this.model.checkWinningState(4));
+        assert.notOk(this.model.checkWinningState(4));
       });
     });
 
@@ -171,7 +168,7 @@ QUnit.module('ConnectFour', function(hooks) {
       });
 
       QUnit.test('Non winning state', function(assert) {
-        assert.ok(!this.model.checkWinningState(4));
+        assert.notOk(this.model.checkWinningState(4));
       });
     });
   });

@@ -28,7 +28,7 @@ ConnectFourView.prototype.addPlayerStatus = function(player) {
   var tokenTemplate = this.tokenTemplate(player);
   var nameTemplate = this.nameTemplate(player);
 
-  if (player.id == this.game.player1.id) {
+  if (player.id === this.game.player1.id) {
     player.$playerStatusElem.append(tokenTemplate);
     player.$playerStatusElem.append(nameTemplate);
     $vsElem.before(player.$playerStatusElem);
